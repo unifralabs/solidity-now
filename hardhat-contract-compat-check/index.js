@@ -29,7 +29,7 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
         let opName = code[i]['name'];
         let value = code[i]['value'];
         let source = code[i]['source'];
-        opName = opName.split(' ');
+        opName = opName.split(' ')[0];
 
         if (opName in l2Instructions["opcases"]) {
           let k = source + ':' + begin + ',' + end + opName;
@@ -71,21 +71,6 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
                 msg += content[pos];
               }
             }
-            //msg += chalk.underline(content.substr(maps[line].begin, maps[line].end - maps[line].begin));
-            // msg += "\n";
-            // var underLine = "";
-            // for (let i = 0; i < (line.toString(10) + " |").length; i++) {
-            //   underLine += ' ';
-            // }
-            // for (let n = maps[line].begin; n < maps[line].end; n++) {
-            //   if (begin <= n && n <= end) {
-            //     underLine += '^';
-            //   } else {
-            //     underLine += ' ';
-            //   }
-            // }
-            // msg += chalk.keyword('yellow')(underLine);
-            // msg += "\n";
           }
 
           console.log(msg);
@@ -181,6 +166,10 @@ task(
   }
 
   await Promise.all(fullNames.map(async function (fullName) {
+    const {deployedBytecode} = await hre.artifacts.readArtifact(fullName);
+    // console.log(fullName)
+    // console.log(deployedBytecode)
+    // console.log('------')
     // if (config.only.length && !config.only.some(m => fullName.match(m))) return;
     // if (config.except.length && config.except.some(m => fullName.match(m))) return;
     //console.log('------');
