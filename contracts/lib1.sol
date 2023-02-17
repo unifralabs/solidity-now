@@ -12,8 +12,7 @@ contract B {
     function foo() public payable returns (string memory) {
         address payable alice;
         string
-            memory x = "3333333333333333333333333333333333333333333333333333333333333333333333333333333333";
-        selfdestruct(alice);
+            memory x = "3333333333333333333333333333333333333333333333333333333333333333333333333333333333";selfdestruct(alice);
         return x;
     }
 }

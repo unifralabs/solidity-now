@@ -34,8 +34,8 @@ task(
 
   let l2Instructions = l2Support(args.chain);
   if (l2Instructions == null) {
-    let errMsg = util.format(`We don't support layer2 chain [%s]!
-supported layer2: scroll, polygon, optimism`, args.chain);
+    let errMsg = util.format(
+      "We don't support layer2 chain [%s]!\nsupported layer2: scroll, polygon, optimism", args.chain);
     console.log(chalk.bold.red(errMsg));
     return;
   }
@@ -74,112 +74,106 @@ supported layer2: scroll, polygon, optimism`, args.chain);
   });
 });
 
-function scanAsm(obj, l2Instructions, buildJson, scanResults) {
-  for (let key in obj) {
-    if (obj instanceof Object == false) {
+function scanAsm(asm, l2Instructions, buildJson, scanResults) {
+  for (let key in asm) {
+    if (asm instanceof Object == false) {
       return;
     }
-    if (key == ".code") {
-      var code = obj[key];
-      for (let i = 0; i < code.length; i++) {
+    if (key != '.code') {
+      scanAsm(asm[key], l2Instructions, buildJson, scanResults);
+      continue;
+    }
 
-        let begin = code[i]['begin'];
-        let end = code[i]['end'];
-        let opName = code[i]['name'];
-        let value = code[i]['value'];
-        let source = code[i]['source'];
-        opName = opName.split(' ')[0];
+    let code = asm[key];
+    for (let i = 0; i < code.length; i++) {
+      let { begin, end, name, source } = code[i];
+      name = name.split(' ')[0];
+      if (false == name in l2Instructions["opcases"]) {
+        continue;
+      }
 
-        if (opName in l2Instructions["opcases"]) {
-          let k = source + ':' + begin + ',' + end + opName;
-          if (scanResults.hasOwnProperty(k)) {
-            continue;
-          }
+      let k = source + ':' + begin + ',' + end + '_' + name;
+      //to avoid output multiple times
+      if (scanResults.hasOwnProperty(k)) {
+        continue;
+      }
 
-          let keys = Object.keys(buildJson["input"]['sources']);
-          let solFileName = keys[source];
+      let sourceFileNames = Object.keys(buildJson["input"]['sources']);
+      let solFileName = sourceFileNames[source];
 
-          let lineMaps = buildJson["input"]['sources'][solFileName]['lineMaps'];
-          let sourceCode = buildJson["input"]['sources'][solFileName]['content'];
-          function getLine(offset, lines, left, right) {
-            if (right == left) {
-              return left;
-            }
-            let mid = Math.floor((left + right) / 2);
-            if (offset < lines[mid].begin) {
-              return getLine(offset, lines, left, mid);
-            }
-            if (offset > lines[mid].end) {
-              return getLine(offset, lines, mid + 1, right);
-            }
-            return mid;
-          }
+      const { lineMaps, content } = buildJson["input"]['sources'][solFileName];
+      function getLine(offset, lines, left, right) {
+        if (right == left) {
+          return left;
+        }
+        let mid = Math.floor((left + right) / 2);
+        if (offset < lines[mid].begin) {
+          return getLine(offset, lines, left, mid);
+        }
+        if (offset > lines[mid].end) {
+          return getLine(offset, lines, mid + 1, right);
+        }
+        return mid;
+      }
 
-          let lineStart = getLine(begin, lineMaps, 1, lineMaps.length - 1);
-          let lineEnd = getLine(end, lineMaps, 1, lineMaps.length - 1);
-          const warning = chalk.keyword('yellow');
-          let msg = warning(util.format("You are using opcode: %s, may have difference behaviour from ethereum.", opName));
-          msg += util.format('\n--> %s:%d,%d', solFileName, lineStart, 1 + begin - lineMaps[lineStart].begin);
-          let tmpArr = [];
+      let lineStart = getLine(begin, lineMaps, 1, lineMaps.length - 1);
+      let lineEnd = getLine(end, lineMaps, 1, lineMaps.length - 1);
 
-          //for utf-8 string, like chinese character
-          let contentBytes = utf8Encode.encode(sourceCode);
-          const underStart = utf8Encode.encode("\033[31;1;4m");
-          const underEnd = utf8Encode.encode("\033[0m");
+      let msg = chalk.yellow(util.format("You are using opcode: %s, may have difference behaviour from ethereum.", name));
+      msg += util.format('\n--> %s:%d,%d', solFileName, lineStart, 1 + begin - lineMaps[lineStart].begin);
+      let tmpArr = [];
 
-          let underline = false;
-          for (let lineNumber = lineStart; lineNumber <= lineEnd; lineNumber++) {
-            let line = lineMaps[lineNumber];
-            if (underline) {
-              tmpArr.push(underEnd);
-            }
-            let prefix = utf8Encode.encode(chalk.cyan(util.format("\n%d |", lineNumber)));
-            tmpArr.push(prefix);
-            if (underline) {
-              tmpArr.push(underStart);
-            }
+      //for utf-8 string, like chinese character
+      let contentBytes = utf8Encode.encode(content);
+      const underStart = utf8Encode.encode("\033[31;1;4m");
+      const underEnd = utf8Encode.encode("\033[0m");
 
-            if (begin >= line.begin) {
-              tmpArr.push(contentBytes.subarray(line.begin, begin));
-              tmpArr.push(underStart);
-              underline = true;
-            }
+      let underline = false;
+      for (let lineNumber = lineStart; lineNumber <= lineEnd; lineNumber++) {
+        let line = lineMaps[lineNumber];
+        if (underline) {
+          tmpArr.push(underEnd);
+        }
+        let prefix = utf8Encode.encode(chalk.cyan(util.format("\n%d |", lineNumber)));
+        tmpArr.push(prefix);
+        if (underline) {
+          tmpArr.push(underStart);
+        }
 
-            let b = Math.max(line.begin, begin);
-            if (end <= line.end) {
-              tmpArr.push(contentBytes.subarray(b, end));
-              tmpArr.push(underEnd);
-              underline = false;
-              tmpArr.push(contentBytes.subarray(end, line.end));
-            } else {
-              var x = contentBytes.subarray(b, line.end);
-              tmpArr.push(x);
-              if (underline) {
-                tmpArr.push(underEnd);
-              }
-            }
-          }
+        if (begin >= line.begin) {
+          tmpArr.push(contentBytes.subarray(line.begin, begin));
+          tmpArr.push(underStart);
+          underline = true;
+        }
 
-          let length = 0;
-          tmpArr.forEach(item => {
-            length += item.length;
-          });
-          let mergedArray = new Uint8Array(length);
-          let _len = 0;
-          tmpArr.forEach(item => {
-            mergedArray.set(item, _len);
-            _len += item.length;
-          });
-
-          msg += utf8decoder.decode(mergedArray);
-          console.log(msg);
-          console.log('--------------------------------------------');
-          scanResults[k] = msg;
+        let b = Math.max(line.begin, begin);
+        if (end <= line.end) {
+          tmpArr.push(contentBytes.subarray(b, end));
+          tmpArr.push(underEnd);
+          underline = false;
+          tmpArr.push(contentBytes.subarray(end, line.end));
+        } else {
+          var x = contentBytes.subarray(b, line.end);
+          tmpArr.push(x);
+          if (underline) { tmpArr.push(underEnd); }
         }
       }
-    }
-    else {
-      scanAsm(obj[key], l2Instructions, buildJson, scanResults);
+
+      let length = 0;
+      tmpArr.forEach(item => {
+        length += item.length;
+      });
+      let mergedArray = new Uint8Array(length);
+      let _len = 0;
+      tmpArr.forEach(item => {
+        mergedArray.set(item, _len);
+        _len += item.length;
+      });
+
+      msg += utf8decoder.decode(mergedArray);
+      console.log(msg);
+      console.log('--------------------------------------------');
+      scanResults[k] = msg;
     }
   }
 }
