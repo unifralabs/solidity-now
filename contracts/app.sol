@@ -1,17 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
-import "./c3.sol";
+import "./lib1.sol";
 
-contract C1 {
-    uint256 d1;
+contract A {
+    uint256 d;
 
-    constructor() {
-        C3 c3 = new C3();
-        c3.bar();
-        d1 = block.difficulty;
-    }
+    function hello()
+        public
+        returns (
+            string memory,
+            string memory,
+            bytes memory
+        )
+    {
+        B b = new B();
+        string memory strB = b.foo();
+        string
+            memory x = "1111111111111111111111111111111111111111111111111111111111111111111111111111111";
+        bytes
+            memory z = "2222222222222222222222222222222222222222222222222222222222222222222222222222222";
 
-    function hello() public payable returns (string memory) {
-        return "111111111111111111111111111111111";
+        d = block.difficulty;
+        return (x, strB, z);
     }
 }

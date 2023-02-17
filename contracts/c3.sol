@@ -9,10 +9,14 @@ contract C3 {
         m = x;
     }
 
+    /*中文测就哦发就哦分我和i会发 试*/
     function bar() public payable returns (uint256) {
-        address payable bob;
-        uint256 tmp = block.difficulty + 2;
-        selfdestruct(bob);
-        return tmp;
+        address payable bob
+      ;
+        uint256 tmp2 = block.difficulty + block.gaslimit;
+        selfdestruct(
+            /*中国汉字测试*/
+            bob);
+        return tmp2;
     }
 }
