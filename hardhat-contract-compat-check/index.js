@@ -29,7 +29,7 @@ task(
   await hre.run(TASK_CLEAN);
   console.log("compiling...");
   await hre.run(TASK_COMPILE);
-  let msg = "checking compatibility of [" + chalk.bold(args.chain) + "]...";
+  let msg = "checking compatibility of [" + chalk.bold.red(args.chain) + "]...";
   console.log(msg);
 
   let l2Instructions = l2Support(args.chain);
@@ -118,10 +118,8 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
           let lineStart = getLine(begin, lineMaps, 1, lineMaps.length - 1);
           let lineEnd = getLine(end, lineMaps, 1, lineMaps.length - 1);
           const warning = chalk.keyword('yellow');
-          let msg = warning(util.format("You are using opcode: %s, may have difference behaviour from ethereum.\n--> ", opName));
-
-          msg += util.format('%s:%d --> %d\n', solFileName, lineStart, lineEnd);
-
+          let msg = warning(util.format("You are using opcode: %s, may have difference behaviour from ethereum.", opName));
+          msg += util.format('\n--> %s:%d,%d', solFileName, lineStart, 1 + begin - lineMaps[lineStart].begin);
           let tmpArr = [];
 
           //for utf-8 string, like chinese character
@@ -152,9 +150,9 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
               tmpArr.push(contentBytes.subarray(b, end));
               tmpArr.push(underEnd);
               underline = false;
-              tmpArr.push(contentBytes.subarray(end, line.end + 1));
+              tmpArr.push(contentBytes.subarray(end, line.end));
             } else {
-              var x = contentBytes.subarray(b, line.end + 1);
+              var x = contentBytes.subarray(b, line.end);
               tmpArr.push(x);
               if (underline) {
                 tmpArr.push(underEnd);
@@ -175,6 +173,7 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
 
           msg += utf8decoder.decode(mergedArray);
           console.log(msg);
+          console.log('--------------------------------------------');
           scanResults[k] = msg;
         }
       }
@@ -185,7 +184,7 @@ function scanAsm(obj, l2Instructions, buildJson, scanResults) {
   }
 }
 
-//TODO make a web server
+//TODO create a web server replace this function
 function l2Support(l2Name) {
   try {
     const data = readFileSync("././hardhat-contract-compat-check/l2results/" + l2Name + '.json');
