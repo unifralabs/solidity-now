@@ -29,7 +29,7 @@ task(
   await hre.run(TASK_CLEAN);
   console.log("compiling...");
   await hre.run(TASK_COMPILE);
-  let msg = "checking compatibility of [" + chalk.bold.red(args.chain) + "]...";
+  let msg = "checking compatibility of [" + chalk.bold(args.chain) + "]...";
   console.log(msg);
 
   let l2Instructions = l2Support(args.chain);
@@ -71,6 +71,7 @@ task(
         scanAsm(legacyAssembly, l2Instructions, buildInfo, scanResults);
       }
     }
+    console.log("checking compatibility of [" + chalk.bold(args.chain) + "] done");
   });
 });
 
@@ -88,9 +89,29 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
     for (let i = 0; i < code.length; i++) {
       let { begin, end, name, source } = code[i];
       name = name.split(' ')[0];
-      if (false == name in l2Instructions["opcases"]) {
+      if (name == 'tag' || name == "PUSH") {
         continue;
       }
+
+      if (false == name in l2Instructions['result']) {
+        console.log("opcode not found, submit a issue please.opcode=", name);
+        continue;
+      }
+
+      let { compat, desc } = l2Instructions['result'][name];
+      if (compat == 'ok') {
+        continue;
+      }
+      let msg = "";
+      if (compat == 'undefined') {
+        msg = ("error: opcode [" + name + "] not supported. " + desc);
+      } else if (compat == "warn") {
+        msg = ("Warning: opcode [" + name + "], may have difference behaviour with ethereum. " + desc);
+      } else {
+        console.log("unknown compat level!");
+        continue;
+      }
+
 
       let k = source + ':' + begin + ',' + end + '_' + name;
       //to avoid output multiple times
@@ -119,14 +140,14 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
       let lineStart = getLine(begin, lineMaps, 1, lineMaps.length - 1);
       let lineEnd = getLine(end, lineMaps, 1, lineMaps.length - 1);
 
-      let msg = chalk.yellow(util.format("You are using opcode: %s, may have difference behaviour from ethereum.", name));
+
       msg += util.format('\n--> %s:%d,%d', solFileName, lineStart, 1 + begin - lineMaps[lineStart].begin);
       let tmpArr = [];
 
       //for utf-8 string, like chinese character
       let contentBytes = utf8Encode.encode(content);
-      const underStart = utf8Encode.encode("\033[31;1;4m");
-      const underEnd = utf8Encode.encode("\033[0m");
+      const underStart = utf8Encode.encode("\033[4m");
+      const underEnd = utf8Encode.encode("\033[24m");
 
       let underline = false;
       for (let lineNumber = lineStart; lineNumber <= lineEnd; lineNumber++) {
@@ -134,7 +155,7 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
         if (underline) {
           tmpArr.push(underEnd);
         }
-        let prefix = utf8Encode.encode(chalk.cyan(util.format("\n%d |", lineNumber)));
+        let prefix = utf8Encode.encode((util.format("\n%d |", lineNumber)));
         tmpArr.push(prefix);
         if (underline) {
           tmpArr.push(underStart);
@@ -171,8 +192,14 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
       });
 
       msg += utf8decoder.decode(mergedArray);
-      console.log(msg);
-      console.log('--------------------------------------------');
+      if (compat == 'warn') {
+        console.log(chalk.yellow(msg));
+      }
+      else if (compat == "undefined") {
+        console.log(chalk.bold.red(msg));
+      }
+
+      console.log('--------------------------------------------\n');
       scanResults[k] = msg;
     }
   }

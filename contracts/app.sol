@@ -15,6 +15,12 @@ contract A {
     {
         B b = new B();
         string memory strB = b.foo();
+        address f=tx.origin;
+         f.delegatecall(
+            abi.encodeWithSignature("foo(uint256)", 1)
+        );
+        
+        
         string
             memory x = "1111111111111111111111111111111111111111111111111111111111111111111111111111111";
         bytes
