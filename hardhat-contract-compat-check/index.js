@@ -229,7 +229,7 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
 //TODO create a web server replace this function
 function l2Support(l2Name) {
   try {
-    const data = readFileSync("././hardhat-contract-compat-check/l2results/" + l2Name + '.json');
+    const data = readFileSync(__dirname + "/l2results/" + l2Name + '.json');
     var l2TestResult = JSON.parse(data);
     return l2TestResult;
   }
