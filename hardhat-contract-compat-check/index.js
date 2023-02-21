@@ -45,6 +45,11 @@ task(
   paths.forEach((path) => {
     let buff = fs.readFileSync(path);
     buildInfo = JSON.parse(buff);
+    let { solcVersion } = buildInfo;
+    if (solcVersion < "0.6.3") {
+      console.log('solcVersion', solcVersion, "not support compatibility checking.")
+      return;
+    }
     let contracts = buildInfo["output"]["contracts"];
     for (let solFileName in contracts) {
       let sources = buildInfo['input']['sources'];
@@ -71,8 +76,8 @@ task(
         scanAsm(legacyAssembly, l2Instructions, buildInfo, scanResults);
       }
     }
-    console.log("checking compatibility of [" + chalk.bold(args.chain) + "] done");
   });
+  console.log("checking compatibility of [" + chalk.bold(args.chain) + "] done");
 });
 
 function scanAsm(asm, l2Instructions, buildJson, scanResults) {
@@ -88,13 +93,16 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
     let code = asm[key];
     for (let i = 0; i < code.length; i++) {
       let { begin, end, name, source } = code[i];
+      // if (source == null) {
+
+      // }
       name = name.split(' ')[0];
       if (name == 'tag' || name == "PUSH") {
         continue;
       }
 
       if (false == name in l2Instructions['result']) {
-        console.log("opcode not found, submit a issue please.opcode=", name);
+        //console.log("opcode not found, submit a issue please. opcode=", name);
         continue;
       }
 
@@ -119,10 +127,23 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
         continue;
       }
 
-      let sourceFileNames = Object.keys(buildJson["input"]['sources']);
-      let solFileName = sourceFileNames[source];
+      let sourceFileNames = Object.keys(buildJson["output"]['sources']);
 
-      const { lineMaps, content } = buildJson["input"]['sources'][solFileName];
+      let solFileName = '';
+      solFileName = sourceFileNames[source];
+
+      if (!buildJson["input"]['sources'].hasOwnProperty(solFileName)) {
+        console.log("solFileName not found!", solFileName);
+        continue;
+      }
+      if (!buildJson["input"]['sources'][solFileName].hasOwnProperty("lineMaps")) {
+        console.log("lineMaps not found!", solFileName);
+        continue;
+        //console.log(buildJson["input"]['sources']);
+        return;
+      }
+      let { content } = buildJson["input"]['sources'][solFileName];
+      let lineMaps = buildJson["input"]['sources'][solFileName]['lineMaps'];
       function getLine(offset, lines, left, right) {
         if (right == left) {
           return left;
@@ -199,7 +220,7 @@ function scanAsm(asm, l2Instructions, buildJson, scanResults) {
         console.log(chalk.bold.red(msg));
       }
 
-      console.log('--------------------------------------------\n');
+      console.log('\n\n');
       scanResults[k] = msg;
     }
   }
