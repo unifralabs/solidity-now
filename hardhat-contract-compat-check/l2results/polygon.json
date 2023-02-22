@@ -242,6 +242,11 @@
       "compat": "warn",
       "desc": ""
     },
+    "PREVRANDAO": {
+      "value": "68",
+      "compat": "warn",
+      "desc": ""
+    },
     "GASLIMIT": {
       "value": "69",
       "compat": "warn",

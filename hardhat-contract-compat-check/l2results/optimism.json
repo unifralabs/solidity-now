@@ -242,6 +242,11 @@
       "compat": "warn",
       "desc": "https://community.optimism.io/docs/developers/build/differences/#bedrock"
     },
+    "PREVRANDAO": {
+      "value": "68",
+      "compat": "warn",
+      "desc": "https://community.optimism.io/docs/developers/build/differences/#bedrock"
+    },
     "GASLIMIT": {
       "value": "69",
       "compat": "ok",
