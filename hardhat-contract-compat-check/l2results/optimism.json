@@ -679,13 +679,13 @@
     },
     "TLOAD": {
       "value": "179",
-      "compat": "ok",
-      "desc": ""
+      "compat": "undefined",
+      "desc": "not support."
     },
     "TSTORE": {
       "value": "180",
-      "compat": "ok",
-      "desc": ""
+      "compat": "undefined",
+      "desc": "not support."
     },
     "CREATE": {
       "value": "240",

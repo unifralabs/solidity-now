@@ -1,5 +1,5 @@
 {
-  "commit": "git hash",
+  "commit": "cdaea939622ef0eaa596f1d13fb5e61b93a5ea2d",
   "time": "test time",
   "result": {
     "STOP": {
@@ -679,13 +679,13 @@
     },
     "TLOAD": {
       "value": "179",
-      "compat": "ok",
-      "desc": ""
+      "compat": "undefined",
+      "desc": "not support."
     },
     "TSTORE": {
       "value": "180",
-      "compat": "ok",
-      "desc": ""
+      "compat": "undefined",
+      "desc": "not support."
     },
     "CREATE": {
       "value": "240",
@@ -735,7 +735,7 @@
     "SELFDESTRUCT": {
       "value": "255",
       "compat": "undefined",
-      "desc": ""
+      "desc": "not support."
     }
   }
 }
