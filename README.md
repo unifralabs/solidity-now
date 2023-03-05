@@ -1,6 +1,6 @@
 # Solidity Now: Hardhat Rollup Compatibility Checker for Solidity
 
-![CI status](https://img.shields.io/github/contributors/unifra20/solidity-now)
+[//]: # (![CI status]&#40;https://img.shields.io/github/contributors/unifra20/solidity-now&#41;)
 ![CI status](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
 <a href="https://twitter.com/unifraplatform">
     <img alt="Twitter" src="https://img.shields.io/twitter/url/https/twitter.com/unifraplatform.svg?style=social&label=Follow%20%40unifra">
