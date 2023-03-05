@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("crazynancy")
+require("hardhat-compat-check")
 /** @type import('hardhat/config').HardhatUserConfig */
 var st = {
 	"optimizer": {
