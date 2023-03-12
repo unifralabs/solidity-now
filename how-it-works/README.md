@@ -11,7 +11,7 @@ We use retesteth to test [official Ethereum test vectors](https://github.com/eth
   `tag: v11.3`
 - opcodes: <https://www.evm.codes/?fork=merge>
 
-These cases covered most of the [evm opcodes](https://github.com/unifra20/layer2Test/blob/main/opcodes.js). 136 opCode
+These cases covered most of the [evm opcodes](https://github.com/unifra20/layer2Test/blob/main/opcodes.js). 136 opcodes
 tested and there are 143 in total, basically coverage=95%.
 
 ## Preparatory work
@@ -345,7 +345,7 @@ block.difficulty|
 Most of the failed testing cases caused by opcodes `SELFDESTRUCT`,`PREVRANDAO(DIFFICULTY)`.
 In scroll, `SELFDESTRUCT` cause ErrInvalidOpCode and `PREVRANDAO(DIFFICULTY)` always return 0.
 
-### conclusion
+### Conclusion
 
 According to the testing result, the following are considered incompatible:
 
@@ -362,27 +362,34 @@ According to the testing result, the following are considered incompatible:
   not covered by above testing, we reference [the doc](<https://mp.weixin.qq.com/s/iCfHzJiqHocHbOl2Zqa92A>) by scroll
   team.
 
-## polygon
+## Polygon zkEVM
 
-polygon team have published their test results:<https://github.com/0xPolygonHermez>
+Since Polygon zkEVM have different state machine to interpret the EVM opcodes to `zkasm`, the method we used on Scroll
+can not be applied directly on Polygon zkEVM. Polygon zkEVM team have use the same testing vectors with their dedicated
+[test facility](https://github.com/0xPolygonHermez/zkevm-testvectors).
 
-There is a list shows all ignored
-tests: <https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json>
+We tried to re-execute the same testing they did. But by some unknown reason, we can not get the same test result they
+got. We can not sure why the testing result could be different. So, the following OPCODE compatibility is inferred by
+official [ignored testing cases](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json)
+and the official documents
+about [differences between EVM and ploygon zkEVM](https://wiki.polygon.technology/docs/zkEVM/protocol/evm-diff).
 
-We see
-that [DIFFICULTY](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9043)
-, [GASLIMIT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9047)
-, [SELFDESTRUCT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L1547)
-are ignored, they may have difference behavior between ethereum.
+### Conclusion
 
-### conclusion
+By methodology that we introduced above, the following are considered incompatible:
 
-- incompatible opcodes with high confidence
-
-- incompatible opcodes with low confidence
-    1. `GASLIMIT`
-    2. `DIFFICULTY`
-    3. `SELFDESTRUCT`
+- `SELFDESTRUCT`: removed and replaced by SENDALL. Related test cases
+  are [ignored]((https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L1547))
+  .
+- `EXTCODEHASH` : returns the hash of the contract bytecode from the zkEVM state tree without checking if the account is
+  empty.
+- `DIFFICULTY` : returns "0" instead of a random number as in the EVM. Related test cases are
+  [ignored](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9043).
+- `BLOCKCHASH` : returns all previous block hashes instead of just the last 256 blocks.
+  BLOCKCHASH is the state root at the end of a processable transaction and is stored on the system smart contract.
+- `NUMBER` : returns the number of processable transactions.
+- `GASLIMIT`: should return gas limit of current block. Related test cases
+  are [ignored](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9047).
 
 ## optimism
 
