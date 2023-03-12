@@ -1,22 +1,25 @@
 # How It Works?
+
 *NOTICE: The doc is still WIP🚧🚧.*
 
 This document test 3 layer2 chain, trying to find out their compatibility with ethereum.
 We use retesteth to test [official Ethereum test vectors](https://github.com/ethereum/retesteth).
 
 - retesteth : <https://github.com/ethereum/retesteth>
-    `retesteth-0.2.3-postmerge+commit.c5274b17.Darwin.appleclang`
+  `retesteth-0.2.3-postmerge+commit.c5274b17.Darwin.appleclang`
 - tests: <https://github.com/ethereum/tests>
-    `tag: v11.3`
+  `tag: v11.3`
 - opcodes: <https://www.evm.codes/?fork=merge>
 
-These cases covered most of the [evm opcodes](https://github.com/unifra20/layer2Test/blob/main/opcodes.js). 136 opCode tested and there are 143 in total, basically coverage=95%.
+These cases covered most of the [evm opcodes](https://github.com/unifra20/layer2Test/blob/main/opcodes.js). 136 opCode
+tested and there are 143 in total, basically coverage=95%.
 
-## preparatory work
+## Preparatory work
 
 ### build retesteth
 
-follow the document: <https://github.com/ethereum/retesteth> to build retesteth then copy retesteth to /usr/local/bin
+Following this document <https://github.com/ethereum/retesteth>, we build retesteth then copy retesteth to
+/usr/local/bin
 
 ```shell
 cp ./retesteth/build/retesteth/retesteth /usr/local/bin/retesteth
@@ -24,7 +27,17 @@ cp ./retesteth/build/retesteth/retesteth /usr/local/bin/retesteth
 
 ## Scroll
 
-### step 1 build evm of Scroll
+### Step 1: build evm of Scroll
+
+> We fork repository from <https://github.com/scroll-tech/go-ethereum.git> based on `prealpha-v5.1`.
+> Than we modify to enable `evm t8ntool`.
+> For detail modification we made, see <https://github.com/unifra20/go-ethereum/tree/for_retesteth>
+>
+>1. modification t8ntool to enable BaseFee
+>2. modification to support the fork 'Merged'
+>2. change `CODEHASH` algorithm from poseidon to Keccak256. (`Scroll team also have done this in the latest branch.`)
+
+Run following script to build the testing target
 
 ```shell
 git clone https://github.com/unifra20/go-ethereum.git
@@ -34,12 +47,7 @@ make all
 cd ..
 ```
 
->unifra team have forked a repository from <https://github.com/scroll-tech/go-ethereum.git> based on `prealpha-v5.1` and did some modifications to enable evm&t8ntool. See <https://github.com/unifra20/go-ethereum/tree/for_retesteth>
->
->1. modified t8ntool to enable BaseFee and support the fork 'Merged'
->2. change codehash algorithm from poseidon to Keccak256. `Scroll team have done this in the latest branch.`
-
-### step 2 start test
+### Step 2 testing execution
 
 ```shell
 sh ./runtest.sh scroll ./go-ethereum/build/bin/evm
@@ -50,8 +58,8 @@ We build a table show the result.
 - folder: folder name
 - total: total case count
 - pass: pass case count
-- total fail: failed case count
-- fail with known cause: failed and known reason
+- total failed: failed case count
+- failed with known cause: failed and known reason
 - pass rate: pass/total
 
 folder|total|pass|total fail|fail with known cause|pass rate
@@ -114,16 +122,19 @@ folder|total|pass|total fail|fail with known cause|pass rate
 | stZeroKnowledge2 | 130 | 130 | 0 | 0 | 100.00%
 |total| 2300 | 2097 | 203 | 199 | 91.17%
 
-### fail reason
+### Fail Cause
 
-|fail case| reason |
-|---|---|
+|fail case| cause |
+|---|--|
 |vmTests/suicide|selfdestruct|
 |stArgsZeroOneBalance/suicideNonConst|selfdestruct|
-|stAttackTest/CrashingTransaction|src/GeneralStateTestsFiller/stAttackTest/CrashingTransactionFiller.json:41 selfdestruct|
+|stAttackTest/CrashingTransaction|src/GeneralStateTestsFiller/stAttackTest/CrashingTransactionFiller.json:41
+selfdestruct|
 |stBadOpcode/invalidAddr|src/GeneralStateTestsFiller/stBadOpcode/invalidAddrFiller.yml:323 selfdestruct|
-|stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192|GeneralStateTests/stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192.json:76 selfdestruct|
-|stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192_london|GeneralStateTests/stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192_london.json:76 selfdestruct|
+|stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192|GeneralStateTests/stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192.json:
+76 selfdestruct|
+|stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192_london|GeneralStateTests/stBugs/randomStatetestDEFAULT-Tue_07_58_41-15153-575192_london.json:
+76 selfdestruct|
 |stCallCodes/callcall_00_SuicideEnd|selfdestruct|
 |stCallCodes/callcallcall_000_SuicideEnd|selfdestruct|
 |stCallCodes/callcallcall_000_SuicideMiddle|selfdestruct|
@@ -144,13 +155,20 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stCallCodes/callcodecallcodecall_110_SuicideMiddle|selfdestruct|
 |stCallCodes/callcodecallcodecallcode_111_SuicideEnd|selfdestruct|
 |stCallCodes/callcodecallcodecallcode_111_SuicideMiddle|selfdestruct|
-|stCallCreateCallCodeTest/createFailBalanceTooLow|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createFailBalanceTooLowFiller.json:45 selfdestruct|
-|stCallCreateCallCodeTest/createInitFailBadJumpDestination|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailBadJumpDestinationFiller.json:28 selfdestruct|
-|stCallCreateCallCodeTest/createInitFailBadJumpDestination2|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailBadJumpDestination2Filler.json:28 selfdestruct|
-|stCallCreateCallCodeTest/createInitFailStackSizeLargerThan1024|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailStackSizeLargerThan1024Filler.json:28 selfdestruct|
-|stCallCreateCallCodeTest/createInitFailStackUnderflow|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailStackUnderflowFiller.json:28 selfdestruct|
-|stCallCreateCallCodeTest/createInitFailUndefinedInstruction2|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailUndefinedInstruction2Filler.json:28 selfdestruct|
-|stCallCreateCallCodeTest/createInitOOGforCREATE|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitOOGforCREATEFiller.json:40 selfdestruct|
+|stCallCreateCallCodeTest/createFailBalanceTooLow|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createFailBalanceTooLowFiller.json:
+45 selfdestruct|
+|stCallCreateCallCodeTest/createInitFailBadJumpDestination|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailBadJumpDestinationFiller.json:
+28 selfdestruct|
+|stCallCreateCallCodeTest/createInitFailBadJumpDestination2|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailBadJumpDestination2Filler.json:
+28 selfdestruct|
+|stCallCreateCallCodeTest/createInitFailStackSizeLargerThan1024|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailStackSizeLargerThan1024Filler.json:
+28 selfdestruct|
+|stCallCreateCallCodeTest/createInitFailStackUnderflow|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailStackUnderflowFiller.json:
+28 selfdestruct|
+|stCallCreateCallCodeTest/createInitFailUndefinedInstruction2|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitFailUndefinedInstruction2Filler.json:
+28 selfdestruct|
+|stCallCreateCallCodeTest/createInitOOGforCREATE|src/GeneralStateTestsFiller/stCallCreateCallCodeTest/createInitOOGforCREATEFiller.json:
+40 selfdestruct|
 |stCallDelegateCodesCallCodeHomestead/callcallcallcode_001_SuicideEnd|selfdestruct|
 |stCallDelegateCodesCallCodeHomestead/callcallcallcode_001_SuicideMiddle|selfdestruct|
 |stCallDelegateCodesCallCodeHomestead/callcallcode_01_SuicideEnd|selfdestruct|
@@ -189,7 +207,7 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stCreate2/CREATE2_Suicide|selfdestruct|
 |stCreate2/Create2OOGFromCallRefunds|selfdestruct|
 |stCreate2/create2InitCodes|src/GeneralStateTestsFiller/stCreate2/create2InitCodesFiller.json:178 selfdestruct|
-|stCreate2/create2SmartInitCode|src/GeneralStateTestsFiller/stCreate2/create2SmartInitCodeFiller.json:66  selfdestruct|
+|stCreate2/create2SmartInitCode|src/GeneralStateTestsFiller/stCreate2/create2SmartInitCodeFiller.json:66 selfdestruct|
 |stCreate2/create2collisionSelfdestructed|selfdestruct|
 |stCreate2/create2collisionSelfdestructed2|selfdestruct|
 |stCreate2/create2collisionSelfdestructedRevert|selfdestruct|
@@ -204,9 +222,12 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stCreateTest/CreateResults|src/GeneralStateTestsFiller/stCreateTest/CreateResultsFiller.yml：260 selfdestruct|
 |stEIP150Specific/SuicideToExistingContract|selfdestruct|
 |stEIP150Specific/SuicideToNotExistingContract|selfdestruct|
-|stEIP150singleCodeGasPrices/eip2929-ff|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/eip2929-ffFiller.yml:100 selfdestruct|
-|stEIP150singleCodeGasPrices/gasCost|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/gasCostFiller.yml:202 selfdestruct|
-|stEIP150singleCodeGasPrices/gasCostBerlin|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/gasCostBerlinFiller.yml:201 selfdestruct|
+|stEIP150singleCodeGasPrices/eip2929-ff|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/eip2929-ffFiller.yml:100
+selfdestruct|
+|stEIP150singleCodeGasPrices/gasCost|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/gasCostFiller.yml:202
+selfdestruct|
+|stEIP150singleCodeGasPrices/gasCostBerlin|src/GeneralStateTestsFiller/stEIP150singleCodeGasPrices/gasCostBerlinFiller.yml:
+201 selfdestruct|
 |stEIP1559/baseFeeDiffPlaces|src/GeneralStateTestsFiller/stEIP1559/baseFeeDiffPlacesFiller.yml:228 selfdestruct|
 |stEIP1559/gasPriceDiffPlaces|src/GeneralStateTestsFiller/stEIP1559/gasPriceDiffPlacesFiller.yml:606 selfdestruct|
 |stEIP158Specific/CALL_OneVCallSuicide|selfdestruct|
@@ -275,7 +296,8 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stRefundTest/refund_TxToSuicide|selfdestruct|
 |stRefundTest/refund_multimpleSuicide|selfdestruct|
 |stRefundTest/refund_singleSuicide|selfdestruct|
-|stRevertTest/TouchToEmptyAccountRevert3|src/GeneralStateTestsFiller/stRevertTest/TouchToEmptyAccountRevert3Filler.json:59 selfdestruct|
+|stRevertTest/TouchToEmptyAccountRevert3|src/GeneralStateTestsFiller/stRevertTest/TouchToEmptyAccountRevert3Filler.json:
+59 selfdestruct|
 |stSelfBalance/diffPlaces|src/GeneralStateTestsFiller/stSelfBalance/diffPlacesFiller.yml:606 selfdestruct|
 |stSolidityTest/SelfDestruct|selfdestruct|
 |stSolidityTest/TestContractSuicide|selfdestruct|
@@ -296,7 +318,8 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stSystemOperationsTest/doubleSelfdestructTest|selfdestruct|
 |stSystemOperationsTest/doubleSelfdestructTest2|selfdestruct|
 |stSystemOperationsTest/doubleSelfdestructTouch|selfdestruct|
-|stSystemOperationsTest/extcodecopy|src/GeneralStateTestsFiller/stSystemOperationsTest/extcodecopyFiller.json:66 block.difficulty|
+|stSystemOperationsTest/extcodecopy|src/GeneralStateTestsFiller/stSystemOperationsTest/extcodecopyFiller.json:66
+block.difficulty|
 |stSystemOperationsTest/suicideAddress|selfdestruct|
 |stSystemOperationsTest/suicideCaller|selfdestruct|
 |stSystemOperationsTest/suicideCallerAddresTooBigLeft|selfdestruct|
@@ -305,7 +328,8 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stSystemOperationsTest/suicideOrigin|selfdestruct|
 |stSystemOperationsTest/suicideSendEtherPostDeath|selfdestruct|
 |stSystemOperationsTest/suicideSendEtherToMe|selfdestruct|
-|stTransactionTest/Opcodes_TransactionInit|tests/src/GeneralStateTestsFiller/stTransactionTest/Opcodes_TransactionInitFiller.json:413 selfdestruct|
+|stTransactionTest/Opcodes_TransactionInit|tests/src/GeneralStateTestsFiller/stTransactionTest/Opcodes_TransactionInitFiller.json:
+413 selfdestruct|
 |stTransactionTest/SuicidesAndInternlCallSuicidesBonusGasAtCall|selfdestruct|
 |stTransactionTest/SuicidesAndInternlCallSuicidesBonusGasAtCallFailed|selfdestruct|
 |stTransactionTest/SuicidesAndInternlCallSuicidesSuccess|selfdestruct|
@@ -318,37 +342,37 @@ folder|total|pass|total fail|fail with known cause|pass rate
 |stZeroCallsTest/ZeroValue_SUICIDE_ToNonZeroBalance|selfdestruct|
 |stZeroCallsTest/ZeroValue_SUICIDE_ToOneStorageKey|selfdestruct|
 
-Most of the failed casees caused by `SELFDESTRUCT`,`PREVRANDAO(DIFFICULTY)`.
-In scroll, `SELFDESTRUCT` cause ErrInvalidOpCode and `PREVRANDAO(DIFFICULTY)` awalys return 0.
+Most of the failed testing cases caused by opcodes `SELFDESTRUCT`,`PREVRANDAO(DIFFICULTY)`.
+In scroll, `SELFDESTRUCT` cause ErrInvalidOpCode and `PREVRANDAO(DIFFICULTY)` always return 0.
 
 ### conclusion
 
-Scroll team published a blog recently <https://mp.weixin.qq.com/s/iCfHzJiqHocHbOl2Zqa92A>.
-According to this blog,`BLOCKHASH`,`COINBASE` also need your attention.
-操作码|Solidity Equivalent |Ethereum| Scroll
-|--|--|--|--|
-BLOCKHASH| block.blockhash| 输入： 从栈顶开始的blocknumber，有效范围[NUMBER -256, NUMBER-1] 输出： 给定区块的哈希，如果不在有效范围内，返回0 |匹配以太坊,但限制输入范围的blocknumber为NUMBER -1
-COINBASE |block.coinbase|在以太坊 Clique 中，是签名者的以太坊地址| 返回一个预部署的费用池合约，查看Alpha测试网合约
-DIFFICULTY/ PREVRANDAO| block.difficulty| PoS后，为前一个区块的 random 值| 返回0
-SELFDESTRUCT |selfdestruct| 计划作废，并用 SENDALL 替换| 在排序器中禁用，未来会采用以太坊的方案
+According to the testing result, the following are considered incompatible:
 
-- incompatible opcodes with high confidence
-  1. `SELFDESTRUCT`
-  1. `PREVRANDAO(DIFFICULTY)`
-
-- incompatible opcodes with low confidence
-  1. `COINBASE`
-  1. `BLOCKHASH`
-
-`SELFDESTRUCT`,`DIFFICULTY` not compatibale with ethereum.
+- `SELFDESTRUCT`: Currently disabled in scroll EVM, `SELFDESTRUCT` will be replaced by `SENDALL` in the future.
+  An [EIP-4758](https://eips.ethereum.org/EIPS/eip-4758) describe more detailed info for this change.
+- `PREVRANDAO(DIFFICULTY)`: After `the merge` fork, evm should return the value of the mixHash field, which
+  is usually used as randomness source. Currently, this opcode return 0 in Scroll zkEVM.
+  An [EIP-4399](https://eips.ethereum.org/EIPS/eip-4399) describe more detailed info for this change.
+- `COINBASE`:  After `the merge` fork, evm should return the value of the validator's address.
+  Currently, this opcode return an address of pre-deployed fee management address.
+- `BLOCKHASH(blockNum)`: In Ethereum EVM, the input is a block number starting from the top of the stack, with a valid
+  range of [NUMBER-256, NUMBER-1], and the output is the hash of the given block. If the block number is not within the
+  valid range, return 0. In Scroll zkEVM, the input range for block number is restricted to NUMBER-1. This behavior is
+  not covered by above testing, we reference [the doc](<https://mp.weixin.qq.com/s/iCfHzJiqHocHbOl2Zqa92A>) by scroll
+  team.
 
 ## polygon
 
 polygon team have published their test results:<https://github.com/0xPolygonHermez>
 
-There is a list shows all ignored tests: <https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json>
+There is a list shows all ignored
+tests: <https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json>
 
-We see that [DIFFICULTY](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9043), [GASLIMIT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9047), [SELFDESTRUCT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L1547)
+We see
+that [DIFFICULTY](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9043)
+, [GASLIMIT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9047)
+, [SELFDESTRUCT](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L1547)
 are ignored, they may have difference behavior between ethereum.
 
 ### conclusion
@@ -356,13 +380,14 @@ are ignored, they may have difference behavior between ethereum.
 - incompatible opcodes with high confidence
 
 - incompatible opcodes with low confidence
-  1. `GASLIMIT`
-  2. `DIFFICULTY`
-  3. `SELFDESTRUCT`
+    1. `GASLIMIT`
+    2. `DIFFICULTY`
+    3. `SELFDESTRUCT`
 
 ## optimism
 
-Optimism team released a document described optimism diffrence between ethereum, see: <https://community.optimism.io/docs/developers/build/differences/#bedrock>
+Optimism team released a document described optimism diffrence between ethereum,
+see: <https://community.optimism.io/docs/developers/build/differences/#bedrock>
 
 ### We also did test for optimism
 
@@ -445,14 +470,16 @@ folder|total|pass|total fail|fail with known cause|pass rate
 | stZeroKnowledge2 | 130 | 130 | 0 | 0 | 100.00%
 |total| 2498 | 2493 | 5 | 0 | 99.80%
 
-Most of cases pass the test. But according to [this document](https://community.optimism.io/docs/developers/build/differences/#bedrock), these opcodes `COINBASE`,`DIFFICULTY`,`ORIGIN`,`CALLER` may have differences between with ethereum.
+Most of cases pass the test. But according
+to [this document](https://community.optimism.io/docs/developers/build/differences/#bedrock), these opcodes `COINBASE`
+,`DIFFICULTY`,`ORIGIN`,`CALLER` may have differences between with ethereum.
 
 ### conclusion
 
 - incompatible opcodes with high confidence
 
 - incompatible opcodes with low confidence
-  1. `COINBASE`
-  2. `DIFFICULTY`
-  3. `ORIGIN`
-  4. `CALLER`
+    1. `COINBASE`
+    2. `DIFFICULTY`
+    3. `ORIGIN`
+    4. `CALLER`
