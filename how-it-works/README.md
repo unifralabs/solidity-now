@@ -2,8 +2,13 @@
 
 *NOTICE: The doc is still WIP🚧🚧.*
 
-This document test 3 layer2 chain, trying to find out their compatibility with ethereum.
-We use retesteth to test [official Ethereum test vectors](https://github.com/ethereum/retesteth).
+*NOTICE: The purpose of this report is to introduce the how `Solidity Now` works. Due to the limitations of our testing
+methods and knowledge, it may contain some misleading or error information. If you have any suggestions or opinions,
+please kindly report them in the issue section.*
+
+To figure out the opcodes `solidity-now` should give warnings, we use [retesteth](https://github.com/ethereum/retesteth)
+with ethereum [official test vectors](https://github.com/ethereum/retesteth) on different rollups. The repos and version
+we used are listed as followed:
 
 - retesteth : <https://github.com/ethereum/retesteth>
   `retesteth-0.2.3-postmerge+commit.c5274b17.Darwin.appleclang`
@@ -29,13 +34,14 @@ cp ./retesteth/build/retesteth/retesteth /usr/local/bin/retesteth
 
 ### Step 1: build evm of Scroll
 
-> We fork repository from <https://github.com/scroll-tech/go-ethereum.git> based on `prealpha-v5.1`.
-> Than we modify to enable `evm t8ntool`.
-> For detail modification we made, see <https://github.com/unifra20/go-ethereum/tree/for_retesteth>
->
->1. modification t8ntool to enable BaseFee
->2. modification to support the fork 'Merged'
->2. change `CODEHASH` algorithm from poseidon to Keccak256. (`Scroll team also have done this in the latest branch.`)
+We fork repository from <https://github.com/scroll-tech/go-ethereum.git> based on `prealpha-v5.1`.
+We make the following changes to execution the testing:
+
+- modify `t8ntool` to enable BaseFee
+- modify to support the fork 'Merged'
+- change `CODEHASH` algorithm from poseidon to Keccak256. (`Scroll team also have done this in the latest branch.`)
+
+For more detail modification we made, see <https://github.com/unifra20/go-ethereum/tree/for_retesteth>
 
 Run following script to build the testing target
 
@@ -391,17 +397,14 @@ By methodology that we introduced above, the following are considered incompatib
 - `GASLIMIT`: should return gas limit of current block. Related test cases
   are [ignored](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json#L9047).
 
-## optimism
+## Optimism
 
-Optimism team released a document described optimism diffrence between ethereum,
-see: <https://community.optimism.io/docs/developers/build/differences/#bedrock>
+### Step 1: build optimism
 
-### We also did test for optimism
-
-- repo: <https://github.com/ethereum-optimism/op-geth.git>
-- commit: 6d55908347cac7463dd6a2cb236f30ec26c9a121
-
-### step 1 build optimism
+Optimism recently released the [bedrock](https://community.optimism.io/docs/developers/bedrock/explainer/). Bedrock
+version use the new [op-geth client](https://github.com/ethereum-optimism/op-geth.git). We execute test cases on commit
+[6d55908347cac7463dd6a2cb236f30ec26c9a121](https://github.com/ethereum-optimism/op-geth/commit/6d55908347cac7463dd6a2cb236f30ec26c9a121)
+.
 
 ```shell
 git clone https://github.com/ethereum-optimism/op-geth.git
@@ -411,11 +414,19 @@ make all
 cd ..
 ```
 
-### step 2 run test
+### Step 2 run test
+
+op-geth is the execution engine of Optimism, which is responsible for executing the blocks it
+receives from the rollup node and storing state. It also exposes standard JSON-RPC methods to query blockchain data and
+submit transactions to the network. op-geth is a [minimal fork]( https://op-geth.optimism.io/ ) of go-ethereum.
+
+We organize the testcases and commands for optimism, just run the following shell scripts:
 
 ```shell
 sh ./runtest.sh optimism ./op-geth/build/bin/evm
 ```
+
+The testing result is as following table:
 
 folder|total|pass|total fail|fail with known cause|pass rate
 |--|--|--|--|--|--|
@@ -477,16 +488,17 @@ folder|total|pass|total fail|fail with known cause|pass rate
 | stZeroKnowledge2 | 130 | 130 | 0 | 0 | 100.00%
 |total| 2498 | 2493 | 5 | 0 | 99.80%
 
-Most of cases pass the test. But according
-to [this document](https://community.optimism.io/docs/developers/build/differences/#bedrock), these opcodes `COINBASE`
-,`DIFFICULTY`,`ORIGIN`,`CALLER` may have differences between with ethereum.
-
 ### conclusion
 
-- incompatible opcodes with high confidence
+Since the Bedrock version of Optimism is [minimal fork]( https://op-geth.optimism.io/ ) of go-ethereum.
+Most testcases are passed. Meanwhile, according
+to [the official documents](https://community.optimism.io/docs/developers/build/differences/#bedrock),
+the opcode `COINBASE` is unsupported by current `op-geth` version.
+The opcodes `DIFFICULTY`,`ORIGIN`,`CALLER` may have minor differences with ethereum,
+which should not be considered as incompatible(so we only give warnings
+in our hardhat plugins):
 
-- incompatible opcodes with low confidence
-    1. `COINBASE`
-    2. `DIFFICULTY`
-    3. `ORIGIN`
-    4. `CALLER`
+- `DIFFICULTY`: Random value (same with go-ethereum).
+  But as this value is set by the sequencer, it is not as reliably random as the L1 equivalent.
+- `ORIGIN`: different only when L1 ⇒ L2 transaction
+- `CALLER`: different only when L1 ⇒ L2 transaction
