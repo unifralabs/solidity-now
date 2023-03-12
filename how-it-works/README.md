@@ -21,7 +21,7 @@ tested and there are 143 in total, basically coverage=95%.
 
 ## Preparatory work
 
-### build retesteth
+### build `retesteth`
 
 Following this document <https://github.com/ethereum/retesteth>, we build retesteth then copy retesteth to
 /usr/local/bin
@@ -32,7 +32,7 @@ cp ./retesteth/build/retesteth/retesteth /usr/local/bin/retesteth
 
 ## Scroll
 
-### Step 1: build evm of Scroll
+### Step 1: build 
 
 We fork repository from <https://github.com/scroll-tech/go-ethereum.git> based on `prealpha-v5.1`.
 We make the following changes to execution the testing:
@@ -53,7 +53,7 @@ make all
 cd ..
 ```
 
-### Step 2 testing execution
+### Step 2: run
 
 ```shell
 sh ./runtest.sh scroll ./go-ethereum/build/bin/evm
@@ -349,6 +349,7 @@ block.difficulty|
 |stZeroCallsTest/ZeroValue_SUICIDE_ToOneStorageKey|selfdestruct|
 
 Most of the failed testing cases caused by opcodes `SELFDESTRUCT`,`PREVRANDAO(DIFFICULTY)`.
+
 In scroll, `SELFDESTRUCT` cause ErrInvalidOpCode and `PREVRANDAO(DIFFICULTY)` always return 0.
 
 ### Conclusion
@@ -399,7 +400,7 @@ By methodology that we introduced above, the following are considered incompatib
 
 ## Optimism
 
-### Step 1: build optimism
+### Step 1: build 
 
 Optimism recently released the [bedrock](https://community.optimism.io/docs/developers/bedrock/explainer/). Bedrock
 version use the new [op-geth client](https://github.com/ethereum-optimism/op-geth.git). We execute test cases on commit
@@ -414,7 +415,7 @@ make all
 cd ..
 ```
 
-### Step 2 run test
+### Step 2: run 
 
 op-geth is the execution engine of Optimism, which is responsible for executing the blocks it
 receives from the rollup node and storing state. It also exposes standard JSON-RPC methods to query blockchain data and
@@ -488,7 +489,7 @@ folder|total|pass|total fail|fail with known cause|pass rate
 | stZeroKnowledge2 | 130 | 130 | 0 | 0 | 100.00%
 |total| 2498 | 2493 | 5 | 0 | 99.80%
 
-### conclusion
+### Conclusion
 
 Since the Bedrock version of Optimism is [minimal fork]( https://op-geth.optimism.io/ ) of go-ethereum.
 Most testcases are passed. Meanwhile, according
