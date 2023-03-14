@@ -2,7 +2,7 @@
 
 *NOTICE: The doc is still WIP🚧🚧.*
 
-*NOTICE: The purpose of this report is to introduce the how `Solidity Now` works. Due to the limitations of our testing
+*NOTICE: The purpose of this report is to introduce how  `Solidity Now` works. Due to the limitations of our testing
 methods and knowledge, it may contain some misleading or error information. If you have any suggestions or opinions,
 please kindly report them in the issue section.*
 
@@ -375,11 +375,11 @@ Since Polygon zkEVM have different state machine to interpret the EVM opcodes to
 can not be applied directly on Polygon zkEVM. Polygon zkEVM team have use the same testing vectors with their dedicated
 [test facility](https://github.com/0xPolygonHermez/zkevm-testvectors).
 
-We tried to re-execute the same testing they did. But by some unknown reason, we can not get the same test result they
+We tried to re-execute the same testing they did. But by some unknown reason, we *can not get the same test result* as they
 got. We can not sure why the testing result could be different. So, the following OPCODE compatibility is inferred by
 official [ignored testing cases](https://github.com/0xPolygonHermez/zkevm-testvectors/blob/main/tools/ethereum-tests/no-exec.json)
 and the official documents
-about [differences between EVM and ploygon zkEVM](https://wiki.polygon.technology/docs/zkEVM/protocol/evm-diff).
+about [differences between EVM and ploygon zkEVM](https://wiki.polygon.technology/docs/zkEVM/protocol/evm-diff)(these testvectors are excluded by official).
 
 ### Conclusion
 
