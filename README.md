@@ -10,7 +10,18 @@ Solidity Now is a hardhat plugin which helps you check your contracts compatibil
 
 *The project is still early version, may change frequently in the future.*
 
-# Quick start
+# Quick start (run working demo)
+
+```js
+cd /examples/0x
+npm i --dev
+npx hardhat compat-check --chain scroll
+```
+
+
+# Use in your hardhat workflow
+
+## Basic Usage
 For example, you have writen some contracts trying to deploy them to scroll. Before you do deploy,
 you can check your contracts by using:
 
@@ -25,9 +36,7 @@ npm install --save-dev hardhat-compat-check
 npx hardhat compat-check --chain scroll
 ```
 
-
-# Usage
-
+## Select rollup
 ```js
 $npx hardhat compat-check --help                                                   
 Hardhat version 2.12.7
