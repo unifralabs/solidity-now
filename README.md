@@ -8,7 +8,7 @@
 
 Solidity Now is a hardhat plugin which helps you check your contracts compatibility for rollup. Now it supports `scroll`, `polygon`, `optimism` for now. More rollups are WIP.
 
-*The project is still early version, may change frequently in the future.*
+*The project is still early version, may change frequently and be unstable. Welcome for issue for bug report.*
 
 # Quick start (run working demo)
 
