@@ -27,7 +27,7 @@ you can check your contracts by using:
 
 ```js
 // install this packadge
-npm install --save-dev hardhat-compat-check
+npm install --save-dev qiaoxr-kkk
 
 // add following settings under you hardhat compiler config
 {"*": ["abi", "metadata", "devdoc", "userdoc", "storageLayout", "evm.legacyAssembly", "evm.methodIdentifiers"]}

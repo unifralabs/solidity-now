@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require('hardhat-compat-check')
+require('qiaoxr-kkk')
 var st = {
   "optimizer": {
     "enabled": true,

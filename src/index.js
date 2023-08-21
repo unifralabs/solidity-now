@@ -23,7 +23,7 @@ extendEnvironment((hre) => {
 task(
     'compat-check', 'check rollup compatibility of compiled contracts'
 ).addParam(
-    'chain', 'target chain(supported: scroll, polygon, optimism)', "scroll", undefined, true
+    'chain', 'target chain(supported: scroll, polygon, optimism, zksync)', "scroll", undefined, true
 ).setAction(async function (args, hre) {
     console.log("cleaning cache...");
     await hre.run(TASK_CLEAN);
@@ -35,7 +35,7 @@ task(
     let l2Instructions = l2Support(args.chain);
     if (l2Instructions == null) {
         let errMsg = util.format(
-            "We don't support layer2 chain [%s]!\nsupported layer2: scroll, polygon, optimism", args.chain);
+            "We don't support layer2 chain [%s]!\nsupported layer2: scroll, polygon, optimism, zksync", args.chain);
         console.log(chalk.bold.red(errMsg));
         return;
     }

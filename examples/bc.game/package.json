@@ -3,6 +3,6 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "hardhat": "^2.12.7",
-    "hardhat-compat-check": "^0.1.0"
+    "qiaoxr-kkk": "^0.1.0"
   }
 }
