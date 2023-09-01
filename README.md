@@ -27,7 +27,7 @@ you can check your contracts by using:
 
 ```js
 // install this packadge
-npm install --save-dev qiaoxr-kkk
+npm install --save-dev @unifra/hardhat-compat
 
 // add following settings under you hardhat compiler config
 {"*": ["abi", "metadata", "devdoc", "userdoc", "storageLayout", "evm.legacyAssembly", "evm.methodIdentifiers"]}
@@ -35,6 +35,74 @@ npm install --save-dev qiaoxr-kkk
 // run checking
 npx hardhat compat-check --chain scroll
 ```
+
+## use it with zksync hardhat plugins
+- step 1
+  ```
+  zksync-cli create demo
+  cd demo
+  npm install --save-dev @unifra/hardhat-compat
+  ```
+
+- step 2
+  
+  edit `hardhat.config.ts`  add following line:
+  ```
+  require("@unifra/hardhat-compat");
+  ```
+- step 3
+  
+  after done with your contract then run this command:
+  ```
+  npx hardhat compat-check 
+  ```
+
+  output would be like:
+  ```
+  cleaning cache...
+  compiling...
+  Compiling contracts for zkSync Era with zksolc v1.3.13 and solc v0.8.17
+  Compiling 1 Solidity file
+  Successfully compiled 1 Solidity file
+  checking compatibility of [zksync]...
+  Warning: opcode [CODESIZE], may have difference behaviour with ethereum. 
+  --> contracts/Greeter.sol:7,5
+  7 |    constructor(string memory _greeting) {
+  8 |        greeting = _greeting;
+  9 |    }
+
+
+
+  Warning: opcode [CODECOPY], may have difference behaviour with ethereum. 
+  --> contracts/Greeter.sol:7,5
+  7 |    constructor(string memory _greeting) {
+  8 |        greeting = _greeting;
+  9 |    }
+
+
+
+  Warning: opcode [CODECOPY], may have difference behaviour with ethereum. 
+  --> contracts/Greeter.sol:4,1
+  4 |contract Greeter {
+  5 |    string private greeting;
+  6 |
+  7 |    constructor(string memory _greeting) {
+  8 |        greeting = _greeting;
+  9 |    }
+  10 |
+  11 |    function greet() public view returns (string memory) {
+  12 |        return greeting;
+  13 |    }
+  14 |
+  15 |    function setGreeting(string memory _greeting) public {
+  16 |        greeting = _greeting;
+  17 |    }
+  18 |}
+
+
+
+  checking compatibility of [zksync] done
+  ```
 
 ## Select rollup
 ```js

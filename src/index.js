@@ -23,7 +23,7 @@ extendEnvironment((hre) => {
 task(
     'compat-check', 'check rollup compatibility of compiled contracts'
 ).addParam(
-    'chain', 'target chain(supported: scroll, polygon, optimism, zksync)', "scroll", undefined, true
+    'chain', 'target chain(supported: scroll, polygon, optimism, zksync)', "zksync", undefined, true
 ).setAction(async function (args, hre) {
     console.log("cleaning cache...");
     await hre.run(TASK_CLEAN);

@@ -1,6 +1,6 @@
 {
-  "name": "qiaoxr-kkk",
-  "version": "0.1.1",
+  "name": "@unifra/hardhat-compat",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
