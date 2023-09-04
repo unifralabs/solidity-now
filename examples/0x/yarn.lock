@@ -855,6 +855,11 @@
   dependencies:
     "@types/node" "*"
 
+"@unifra/hardhat-compat@^0.0.2":
+  "integrity" "sha512-LI9gaoGXV7rNdKINsrVkE/b0Ny1YBKzlhI+BdPvJvrkouEmOkUOekHL8T+SREDvYrFhngFZNJ4FJp5sBw6T2sA=="
+  "resolved" "https://registry.npmjs.org/@unifra/hardhat-compat/-/hardhat-compat-0.0.2.tgz"
+  "version" "0.0.2"
+
 "abbrev@1", "abbrev@1.0.x":
   "integrity" "sha512-LEyx4aLEC3x6T0UguF6YILf+ntvmOaWsVfENmIW0E9H09vKlLDGelMjjSm0jkDHALj8A8quZ/HapKNigzwge+Q=="
   "resolved" "https://registry.npmjs.org/abbrev/-/abbrev-1.0.9.tgz"
@@ -2438,11 +2443,6 @@
   dependencies:
     "ajv" "^6.12.3"
     "har-schema" "^2.0.0"
-
-"@unifra/hardhat-compat@^0.1.0":
-  "integrity" "sha512-2HGXQtU/xY5Em6ePMqg7gSJj3u1ivy98asHRBg6JTaCzSxhLUx6nivOqQzGE2HkjBA3jEdNsU1rErefM/ik85g=="
-  "resolved" "https://registry.npmjs.org/@unifra/hardhat-compat/-/@unifra/hardhat-compat-0.1.0.tgz"
-  "version" "0.1.0"
 
 "hardhat-gas-reporter@^1.0.8":
   "integrity" "sha512-INN26G3EW43adGKBNzYWOlI3+rlLnasXTwW79YNnUhXPDa+yHESgt639dJEs37gCjhkbNKcRRJnomXEuMFBXJg=="

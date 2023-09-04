@@ -54,7 +54,7 @@ npx hardhat compat-check --chain scroll
   
   after done with your contract then run this command:
   ```
-  npx hardhat compat-check 
+  npx hardhat compat-check --chain zksync
   ```
 
   output would be like:
