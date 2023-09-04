@@ -503,3 +503,39 @@ in our hardhat plugins):
   But as this value is set by the sequencer, it is not as reliably random as the L1 equivalent.
 - `ORIGIN`: different only when L1 ⇒ L2 transaction
 - `CALLER`: different only when L1 ⇒ L2 transaction
+
+## zkSync
+According to [Differences from Ethereum](https://era.zksync.io/docs/reference/architecture/differences-with-ethereum.html#differences-from-ethereum), there are more than a dozen instructions that are not compatible. All incompatible instructions are documented here in `src/l2results/zksync-all.json`.
+
+Some of these incompatible instructions have relatively stringent conditions for their occurrence. However, for now, we consider them to be compatible with Ethereum, such as `CALLDATACOPY` and `CALLDATALOAD`. 
+
+Regarding `MSTORE` and `MLOAD`, these two instructions are very common, and although their behavior differs slightly from Ethereum, you can find the specifics [here](https://era.zksync.io/docs/reference/architecture/differences-with-ethereum.html#mstore-mload). To avoid overwhelming warning messages, we temporarily consider these two instructions as compatible. 
+
+
+
+### Conclusion
+So, the final list of incompatible instructions is as follows:
+
+`CODESIZE`
+`CODECOPY`
+`EXTCODECOPY`
+`COINBASE`
+`TIMESTAMP`
+`NUMBER`
+`DIFFICULTY`
+`PREVRANDAO`
+`BASEFEE`
+`PC`
+`TLOAD`
+`TSTORE`
+`CREATE`
+`CALL`
+`CALLCODE`
+`DELEGATECALL`
+`STATICCALL`
+`SELFDESTRUCT`
+
+
+
+
+

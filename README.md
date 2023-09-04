@@ -6,7 +6,7 @@
     <img alt="Twitter" src="https://img.shields.io/twitter/url/https/twitter.com/unifraplatform.svg?style=social&label=Follow%20%40unifra">
 </a>
 
-Solidity Now is a hardhat plugin which helps you check your contracts compatibility for rollup. Now it supports `scroll`, `polygon`, `optimism` for now. More rollups are WIP.
+Solidity Now is a hardhat plugin which helps you check your contracts compatibility for rollup. Now it supports `scroll`, `polygon`, `optimism`,`zksync` for now. More rollups are WIP.
 
 *The project is still early version, may change frequently and be unstable. Welcome for issue for bug report.*
 
@@ -103,7 +103,7 @@ npx hardhat compat-check --chain scroll
 
   checking compatibility of [zksync] done
   ```
-
+  
 ## Select rollup
 ```js
 $npx hardhat compat-check --help                                                   
@@ -113,7 +113,7 @@ Usage: hardhat [GLOBAL OPTIONS] compat-check [--chain <STRING>]
 
 OPTIONS:
 
-  --chain       target chain(supported: scroll, polygon, optimism) (default: "scroll")
+  --chain       target chain(supported: scroll, polygon, optimism, zksync)
 
 compat-check: check rollup compatibility of compiled contracts
 

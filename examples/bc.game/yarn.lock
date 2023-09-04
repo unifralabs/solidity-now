@@ -1220,9 +1220,9 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
   integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
 
-qiaoxr-kkk@^0.1.0:
+@unifra/hardhat-compat@^0.1.0:
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/qiaoxr-kkk/-/qiaoxr-kkk-0.1.0.tgz#dbe8ce981dd868fc435c12b71c2988b1f4c5ff2a"
+  resolved "https://registry.yarnpkg.com/@unifra/hardhat-compat/-/@unifra/hardhat-compat-0.1.0.tgz#dbe8ce981dd868fc435c12b71c2988b1f4c5ff2a"
   integrity sha512-2HGXQtU/xY5Em6ePMqg7gSJj3u1ivy98asHRBg6JTaCzSxhLUx6nivOqQzGE2HkjBA3jEdNsU1rErefM/ik85g==
 
 hardhat@^2.12.7:

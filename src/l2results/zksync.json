@@ -709,7 +709,7 @@
     },
     "DELEGATECALL": {
       "value": "244",
-      "compat": "ok",
+      "compat": "warn",
       "desc": ""
     },
     "CREATE2": {
@@ -719,7 +719,7 @@
     },
     "STATICCALL": {
       "value": "250",
-      "compat": "ok",
+      "compat": "warn",
       "desc": ""
     },
     "REVERT": {
