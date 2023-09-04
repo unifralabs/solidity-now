@@ -1,6 +1,6 @@
 {
-  "name": "hardhat-compat-check",
-  "version": "0.1.0",
+  "name": "@unifra/hardhat-compat",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {

@@ -1,5 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("hardhat-compat-check")
+require("@unifra/hardhat-compat")
 /** @type import('hardhat/config').HardhatUserConfig */
 var st = {
 	"optimizer": {

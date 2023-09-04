@@ -1,0 +1,741 @@
+{
+  "commit": "cdaea939622ef0eaa596f1d13fb5e61b93a5ea2d",
+  "time": "test time",
+  "result": {
+    "STOP": {
+      "value": "0",
+      "compat": "ok",
+      "desc": ""
+    },
+    "ADD": {
+      "value": "1",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MUL": {
+      "value": "2",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SUB": {
+      "value": "3",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DIV": {
+      "value": "4",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SDIV": {
+      "value": "5",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MOD": {
+      "value": "6",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SMOD": {
+      "value": "7",
+      "compat": "ok",
+      "desc": ""
+    },
+    "ADDMOD": {
+      "value": "8",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MULMOD": {
+      "value": "9",
+      "compat": "ok",
+      "desc": ""
+    },
+    "EXP": {
+      "value": "10",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SIGNEXTEND": {
+      "value": "11",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LT": {
+      "value": "16",
+      "compat": "ok",
+      "desc": ""
+    },
+    "GT": {
+      "value": "17",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SLT": {
+      "value": "18",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SGT": {
+      "value": "19",
+      "compat": "ok",
+      "desc": ""
+    },
+    "EQ": {
+      "value": "20",
+      "compat": "ok",
+      "desc": ""
+    },
+    "ISZERO": {
+      "value": "21",
+      "compat": "ok",
+      "desc": ""
+    },
+    "AND": {
+      "value": "22",
+      "compat": "ok",
+      "desc": ""
+    },
+    "OR": {
+      "value": "23",
+      "compat": "ok",
+      "desc": ""
+    },
+    "XOR": {
+      "value": "24",
+      "compat": "ok",
+      "desc": ""
+    },
+    "NOT": {
+      "value": "25",
+      "compat": "ok",
+      "desc": ""
+    },
+    "BYTE": {
+      "value": "26",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SHL": {
+      "value": "27",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SHR": {
+      "value": "28",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SAR": {
+      "value": "29",
+      "compat": "ok",
+      "desc": ""
+    },
+    "KECCAK256": {
+      "value": "32",
+      "compat": "ok",
+      "desc": ""
+    },
+    "ADDRESS": {
+      "value": "48",
+      "compat": "ok",
+      "desc": ""
+    },
+    "BALANCE": {
+      "value": "49",
+      "compat": "ok",
+      "desc": ""
+    },
+    "ORIGIN": {
+      "value": "50",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CALLER": {
+      "value": "51",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CALLVALUE": {
+      "value": "52",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CALLDATALOAD": {
+      "value": "53",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CALLDATASIZE": {
+      "value": "54",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CALLDATACOPY": {
+      "value": "55",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CODESIZE": {
+      "value": "56",
+      "compat": "warn",
+      "desc": ""
+    },
+    "CODECOPY": {
+      "value": "57",
+      "compat": "warn",
+      "desc": ""
+    },
+    "GASPRICE": {
+      "value": "58",
+      "compat": "ok",
+      "desc": ""
+    },
+    "EXTCODESIZE": {
+      "value": "59",
+      "compat": "ok",
+      "desc": ""
+    },
+    "EXTCODECOPY": {
+      "value": "60",
+      "compat": "warn",
+      "desc": ""
+    },
+    "RETURNDATASIZE": {
+      "value": "61",
+      "compat": "ok",
+      "desc": ""
+    },
+    "RETURNDATACOPY": {
+      "value": "62",
+      "compat": "ok",
+      "desc": ""
+    },
+    "EXTCODEHASH": {
+      "value": "63",
+      "compat": "ok",
+      "desc": ""
+    },
+    "BLOCKHASH": {
+      "value": "64",
+      "compat": "ok",
+      "desc": ""
+    },
+    "COINBASE": {
+      "value": "65",
+      "compat": "warn",
+      "desc": ""
+    },
+    "TIMESTAMP": {
+      "value": "66",
+      "compat": "warn",
+      "desc": ""
+    },
+    "NUMBER": {
+      "value": "67",
+      "compat": "warn",
+      "desc": ""
+    },
+    "DIFFICULTY": {
+      "value": "68",
+      "compat": "warn",
+      "desc": ""
+    },
+    "PREVRANDAO": {
+      "value": "68",
+      "compat": "warn",
+      "desc": ""
+    },
+    "GASLIMIT": {
+      "value": "69",
+      "compat": "ok",
+      "desc": ""
+    },
+    "CHAINID": {
+      "value": "70",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SELFBALANCE": {
+      "value": "71",
+      "compat": "ok",
+      "desc": ""
+    },
+    "BASEFEE": {
+      "value": "72",
+      "compat": "warn",
+      "desc": ""
+    },
+    "POP": {
+      "value": "80",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MLOAD": {
+      "value": "81",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MSTORE": {
+      "value": "82",
+      "compat": "ok",
+      "desc": ""
+    },
+    "MSTORE8": {
+      "value": "83",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SLOAD": {
+      "value": "84",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SSTORE": {
+      "value": "85",
+      "compat": "ok",
+      "desc": ""
+    },
+    "JUMP": {
+      "value": "86",
+      "compat": "ok",
+      "desc": ""
+    },
+    "JUMPI": {
+      "value": "87",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PC": {
+      "value": "88",
+      "compat": "undefined",
+      "desc": "not support."
+    },
+    "MSIZE": {
+      "value": "89",
+      "compat": "ok",
+      "desc": ""
+    },
+    "GAS": {
+      "value": "90",
+      "compat": "ok",
+      "desc": ""
+    },
+    "JUMPDEST": {
+      "value": "91",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH0": {
+      "value": "95",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH1": {
+      "value": "96",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH2": {
+      "value": "97",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH3": {
+      "value": "98",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH4": {
+      "value": "99",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH5": {
+      "value": "100",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH6": {
+      "value": "101",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH7": {
+      "value": "102",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH8": {
+      "value": "103",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH9": {
+      "value": "104",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH10": {
+      "value": "105",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH11": {
+      "value": "106",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH12": {
+      "value": "107",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH13": {
+      "value": "108",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH14": {
+      "value": "109",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH15": {
+      "value": "110",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH16": {
+      "value": "111",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH17": {
+      "value": "112",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH18": {
+      "value": "113",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH19": {
+      "value": "114",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH20": {
+      "value": "115",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH21": {
+      "value": "116",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH22": {
+      "value": "117",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH23": {
+      "value": "118",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH24": {
+      "value": "119",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH25": {
+      "value": "120",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH26": {
+      "value": "121",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH27": {
+      "value": "122",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH28": {
+      "value": "123",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH29": {
+      "value": "124",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH30": {
+      "value": "125",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH31": {
+      "value": "126",
+      "compat": "ok",
+      "desc": ""
+    },
+    "PUSH32": {
+      "value": "127",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP1": {
+      "value": "128",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP2": {
+      "value": "129",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP3": {
+      "value": "130",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP4": {
+      "value": "131",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP5": {
+      "value": "132",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP6": {
+      "value": "133",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP7": {
+      "value": "134",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP8": {
+      "value": "135",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP9": {
+      "value": "136",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP10": {
+      "value": "137",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP11": {
+      "value": "138",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP12": {
+      "value": "139",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP13": {
+      "value": "140",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP14": {
+      "value": "141",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP15": {
+      "value": "142",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DUP16": {
+      "value": "143",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP1": {
+      "value": "144",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP2": {
+      "value": "145",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP3": {
+      "value": "146",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP4": {
+      "value": "147",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP5": {
+      "value": "148",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP6": {
+      "value": "149",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP7": {
+      "value": "150",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP8": {
+      "value": "151",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP9": {
+      "value": "152",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP10": {
+      "value": "153",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP11": {
+      "value": "154",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP12": {
+      "value": "155",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP13": {
+      "value": "156",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP14": {
+      "value": "157",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP15": {
+      "value": "158",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SWAP16": {
+      "value": "159",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LOG0": {
+      "value": "160",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LOG1": {
+      "value": "161",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LOG2": {
+      "value": "162",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LOG3": {
+      "value": "163",
+      "compat": "ok",
+      "desc": ""
+    },
+    "LOG4": {
+      "value": "164",
+      "compat": "ok",
+      "desc": ""
+    },
+    "TLOAD": {
+      "value": "179",
+      "compat": "undefined",
+      "desc": "not support."
+    },
+    "TSTORE": {
+      "value": "180",
+      "compat": "undefined",
+      "desc": "not support."
+    },
+    "CREATE": {
+      "value": "240",
+      "compat": "warn",
+      "desc": ""
+    },
+    "CALL": {
+      "value": "241",
+      "compat": "warn",
+      "desc": ""
+    },
+    "CALLCODE": {
+      "value": "242",
+      "compat": "undefined",
+      "desc": "not support."
+    },
+    "RETURN": {
+      "value": "243",
+      "compat": "ok",
+      "desc": ""
+    },
+    "DELEGATECALL": {
+      "value": "244",
+      "compat": "warn",
+      "desc": ""
+    },
+    "CREATE2": {
+      "value": "245",
+      "compat": "ok",
+      "desc": ""
+    },
+    "STATICCALL": {
+      "value": "250",
+      "compat": "warn",
+      "desc": ""
+    },
+    "REVERT": {
+      "value": "253",
+      "compat": "ok",
+      "desc": ""
+    },
+    "INVALID": {
+      "value": "254",
+      "compat": "ok",
+      "desc": ""
+    },
+    "SELFDESTRUCT": {
+      "value": "255",
+      "compat": "undefined",
+      "desc": "not support."
+    }
+  }
+}
