@@ -41,18 +41,32 @@ npx hardhat compat-check --chain scroll
   ```
   zksync-cli create demo
   cd demo
-  npm install --save-dev @unifra/hardhat-compat
+  yarn add @unifra/hardhat-compat --dev
   ```
 
 - step 2
   
-  edit `hardhat.config.ts`  add following line:
+  edit `hardhat.config.ts`
+  1.  add following line:
   ```
   require("@unifra/hardhat-compat");
   ```
+  1. edit object `solidity` like this:
+   ```
+   solidity: {
+    version: "0.8.17", // any version you want
+    settings: {
+      outputSelection: {
+        "*": {
+          "": [],
+          "*": ["evm.legacyAssembly", "abi", "metadata", "devdoc", "userdoc", "storageLayout", "evm.methodIdentifiers"]
+        }
+      }
+    }
+  }
+  ```
 - step 3
-  
-  after done with your contract then run this command:
+  Remove all files in `./contracts/`, write your own contracts, then run this command:
   ```
   npx hardhat compat-check --chain zksync
   ```
